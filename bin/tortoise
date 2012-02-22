@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-require 'tortoise'
+$:.push File.expand_path("../../lib", __FILE__)
+require 'tortoise/interpreter'
 
 if ARGV.size < 1
   puts "Usage: tortoise [FILE]"
