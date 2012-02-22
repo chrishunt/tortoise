@@ -3,8 +3,6 @@ Tortoise [![Build Status](https://secure.travis-ci.org/huntca/tortoise.png)](htt
 [logo]: http://en.wikipedia.org/wiki/Logo_(programming_language) "Logo Programming Language"
 [rubygems]: https://rubygems.org/ "Rubygems"
 
-About
------
 Tortoise is a [Logo][logo] interpreter for Ruby. To demonstrate the
 awesomeness of Logo, we'll draw a ruby! This example can be found in the
 repository at `spec/data/simple.logo`.
