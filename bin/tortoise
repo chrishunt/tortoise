@@ -8,4 +8,4 @@ if ARGV.size < 1
 end
 
 commands = File.new(ARGV.first).read
-puts Tortoise.new(commands).to_s
+puts Tortoise::Interpreter.new(commands).to_s
