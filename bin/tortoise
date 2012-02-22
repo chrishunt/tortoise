@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require 'tortoise'
+
+if ARGV.size < 1
+  puts "Usage: tortoise [FILE]"
+  raise Exception.new("Missing file")
+end
+
+commands = File.new(ARGV.first).read
+puts Tortoise.new(commands).to_s

@@ -1,5 +1,2 @@
-require "tortoise/version"
-
-module Tortoise
-  # Your code goes here...
-end
+require 'tortoise/interpreter'
+require 'tortoise/version'
