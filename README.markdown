@@ -1,4 +1,4 @@
-Tortoise
+Tortoise [![Build Status](https://secure.travis-ci.org/huntca/tortoise.png)](http://travis-ci.org/huntca/tortoise)
 ========
 [logo]: http://en.wikipedia.org/wiki/Logo_(programming_language) "Logo Programming Language"
 [rubygems]: https://rubygems.org/ "Rubygems"
