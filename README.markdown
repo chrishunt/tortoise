@@ -107,8 +107,8 @@ We can load and execute `drawing.logo` with:
 
 Command Line Usage
 ------------------
-Tortoise comes with a command line tool that takes a file parameter and prints
-the rendered image to standard out.
+Tortoise can be used on the command line to render logo command files. The
+output is rendered to standard out.
 
     Usage: tortoise [FILE]
 
@@ -116,8 +116,8 @@ For example, if you'd like to render `drawing.logo` to `drawing.txt`:
 
     $ tortoise drawing.logo > drawing.txt
 
-Rendering Canvas
-----------------
+Rendering The Canvas
+--------------------
 Tortoise can currently render its canvas to a string. Html export is planned
 soon (which will allow a very high resolution canvas). To get a string
 representation of the current canvas:
