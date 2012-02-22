@@ -4,7 +4,7 @@ require 'tortoise/interpreter'
 
 if ARGV.size < 1
   puts "Usage: tortoise [FILE]"
-  raise Exception.new("Missing file")
+  raise Exception.new("Missing filename")
 end
 
 commands = File.new(ARGV.first).read
