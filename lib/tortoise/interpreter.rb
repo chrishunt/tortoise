@@ -6,10 +6,10 @@ module Tortoise
       lines = instructions.to_s.split("\n")
 
       @size = lines.shift.to_i
-      @canvas = {}
+      @canvas = new_canvas
       @direction = 0
-
       center = (@size - @size/2) - 1
+
       update_position(center, center)
       draw(lines)
     end
@@ -36,14 +36,15 @@ module Tortoise
     end
 
     def to_ascii
-      (@size - 1).downto(0).inject('') do |ascii, y|
-        0.upto(@size - 1).each do |x|
-          pixel = "x#{x}y#{y}".to_sym
-          char = canvas[pixel] ? 'X' : '.'
-          ascii += "#{char} "
+      s = ''
+      oriented_canvas.each do |column|
+        column.each do |pixel|
+          char = pixel ? 'X' : '.'
+          s += "#{char} "
         end
-        ascii = ascii.strip + "\n"
+        s = s.strip + "\n"
       end
+      s
     end
 
     def to_html
@@ -59,6 +60,10 @@ module Tortoise
     end
 
     private
+
+    def new_canvas
+      Array.new(@size) { Array.new(@size) {false} }
+    end
 
     def update_position(x, y)
       @position = place_in_canvas_bounds(x, y)
@@ -106,8 +111,7 @@ module Tortoise
 
     def update_canvas
       x, y = @position
-      pixel = "x#{x}y#{y}".to_sym
-      @canvas[pixel] = true
+      @canvas[x][y] = true
     end
 
     def place_in_canvas_bounds(x, y)
@@ -116,6 +120,16 @@ module Tortoise
       x = @size - 1 if x >= @size
       y = @size - 1 if y >= @size
       [x, y]
+    end
+
+    def oriented_canvas
+      oriented = new_canvas
+      @canvas.each_with_index do |column, i|
+        column.each_with_index do |pixel, j|
+          oriented[@size-1-j][i] = pixel
+        end
+      end
+      oriented
     end
 
     def html_head
@@ -151,15 +165,16 @@ module Tortoise
     end
 
     def html_canvas
-      0.upto(@size - 1).inject("<div id='canvas'>") do |html, x|
+      html = "<div id='canvas'>"
+      @canvas.each do |column|
         html += "<div class='column'>"
-        (@size - 1).downto(0).each do |y|
-          pixel = "x#{x}y#{y}".to_sym
-          pixel_class = canvas[pixel] ? 'filled' : 'empty'
+        column.reverse.each do |pixel|
+          pixel_class = pixel ? 'filled' : 'empty'
           html += "<div class='pixel #{pixel_class}'></div>"
         end
         html += "</div>"
-      end + "</div>"
+      end
+      html += "</div>"
     end
   end
 end

@@ -21,7 +21,11 @@ describe Tortoise::Interpreter do
   end
 
   it 'starts with a single marked pixel on the canvas' do
-    tortoise.canvas.size.should == 1
+    count = 0
+    tortoise.canvas.each do |column|
+      column.each { |pixel| count += 1 if pixel }
+    end
+    count.should == 1
   end
 
   it 'defaults tortoise position to the center of the canvas' do
@@ -45,13 +49,12 @@ describe Tortoise::Interpreter do
         RT 180
         FD 2
       STEPS
-      tortoise.canvas.should == {
-        :x2y0 => true,
-        :x2y2 => true,
-        :x3y0 => true,
-        :x3y1 => true,
-        :x3y2 => true,
-        :x4y0 => true }
+      tortoise.canvas.should == [
+        [false, false, false, false, false],
+        [false, false, false, false, false],
+        [true , false, true , false, false],
+        [true , true , true , false, false],
+        [true , false, false, false, false]]
     end
 
     it 'draws the image on the canvas when given an array' do
@@ -64,14 +67,13 @@ describe Tortoise::Interpreter do
         'REPEAT 2 [ LT 45 ]',
         'FD 1',
         'RT 180',
-        'FD 2' ])
-      tortoise.canvas.should == {
-        :x2y0 => true,
-        :x2y2 => true,
-        :x3y0 => true,
-        :x3y1 => true,
-        :x3y2 => true,
-        :x4y0 => true }
+        'FD 2'])
+      tortoise.canvas.should == [
+        [false, false, false, false, false],
+        [false, false, false, false, false],
+        [true , false, true , false, false],
+        [true , true , true , false, false],
+        [true , false, false, false, false]]
     end
   end
 
@@ -325,13 +327,12 @@ describe Tortoise::Interpreter do
       tortoise.fd(1)
       tortoise.rt(180)
       tortoise.fd(2)
-      tortoise.canvas.should == {
-        :x2y0 => true,
-        :x2y2 => true,
-        :x3y0 => true,
-        :x3y1 => true,
-        :x3y2 => true,
-        :x4y0 => true }
+      tortoise.canvas.should == [
+        [false, false, false, false, false],
+        [false, false, false, false, false],
+        [true , false, true , false, false],
+        [true , true , true , false, false],
+        [true , false, false, false, false]]
     end
   end
 
@@ -428,13 +429,12 @@ describe Tortoise::Interpreter do
       tortoise.bk(1)
       tortoise.rt(180)
       tortoise.bk(2)
-      tortoise.canvas.should == {
-        :x2y0 => true,
-        :x2y2 => true,
-        :x3y0 => true,
-        :x3y1 => true,
-        :x3y2 => true,
-        :x4y0 => true }
+      tortoise.canvas.should == [
+        [false, false, false, false, false],
+        [false, false, false, false, false],
+        [true , false, true , false, false],
+        [true , true , true , false, false],
+        [true , false, false, false, false]]
     end
   end
 
