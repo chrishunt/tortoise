@@ -2,6 +2,8 @@ module Tortoise
   class Presenter
     attr_reader :canvas
 
+    PIXEL_SIZE = 5
+
     def initialize(interpreter)
       @canvas = interpreter.canvas
     end
@@ -45,28 +47,29 @@ module Tortoise
     end
 
     def html_head
-      pixel_size = 8
       <<-HTML
         <head>
         <title>Tortoise</title>
         <style type="text/css">
           * { margin: 0; padding: 0; }
+
           body { background: #555; }
+
           .column { float: left; }
+
           .empty { background: #ddd; }
+
           .filled { background: #111; }
 
           #canvas {
             overflow: hidden;
-            border: #{pixel_size}px solid #000;
-            width: #{@canvas.size * pixel_size}px;
-            margin: 50px auto 10px auto;
-          }
+            border: #{PIXEL_SIZE}px solid #111;
+            width: #{@canvas.size * PIXEL_SIZE}px;
+            margin: 50px auto 10px auto; }
 
           .pixel {
-            width: #{pixel_size}px;
-            height: #{pixel_size}px;
-          }
+            width: #{PIXEL_SIZE}px;
+            height: #{PIXEL_SIZE}px; }
         </style>
         </head>
       HTML
