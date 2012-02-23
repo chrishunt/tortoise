@@ -77,49 +77,6 @@ describe Tortoise::Interpreter do
     end
   end
 
-  describe '#to_ascii' do
-    it 'renders canvas to ascii' do
-      tortoise = Tortoise::Interpreter.new(5)
-      tortoise.draw <<-STEPS
-        RT 90
-        FD 1
-        REPEAT 2 [ RT 45 ]
-        FD 2
-        REPEAT 2 [ LT 45 ]
-        FD 1
-        RT 180
-        FD 2
-      STEPS
-      tortoise.to_ascii.should == "" +
-       ". . . . .\n" +
-       ". . . . .\n" +
-       ". . X X .\n" +
-       ". . . X .\n" +
-       ". . X X X\n"
-    end
-  end
-
-  describe '#to_html' do
-    it 'renders canvas to html' do
-      tortoise = Tortoise::Interpreter.new(5)
-      tortoise.draw <<-STEPS
-        RT 90
-        FD 1
-        REPEAT 2 [ RT 45 ]
-        FD 2
-        REPEAT 2 [ LT 45 ]
-        FD 1
-        RT 180
-        FD 2
-      STEPS
-      tortoise.to_html.scan('html').size.should == 3
-      tortoise.to_html.scan('body').size.should == 3
-      tortoise.to_html.scan('canvas').size.should == 2
-      tortoise.to_html.scan('column').size.should == 6
-      tortoise.to_html.scan('pixel').size.should == 26
-    end
-  end
-
   describe '#rt' do
     it 'can rotate the tortoise 45 degrees to the right' do
       tortoise.rt(45)
@@ -479,6 +436,28 @@ describe Tortoise::Interpreter do
     it 'can execute commands with extra whitespace' do
       tortoise.send(:execute, ' RT 90 ')
       tortoise.direction.should == 90
+    end
+  end
+
+  describe 'canvas rendering' do
+    before do
+      @presenter = stub('presenter')
+      Tortoise::Presenter.stub(:new => @presenter)
+      @interpreter = Tortoise::Interpreter.new(5)
+    end
+
+    describe '#to_ascii' do
+      it 'delegates rendering to presenter' do
+        @presenter.should_receive(:to_ascii)
+        @interpreter.to_ascii
+      end
+    end
+
+    describe '#to_html' do
+      it 'delegates rendering to presenter' do
+        @presenter.should_receive(:to_html)
+        @interpreter.to_html
+      end
     end
   end
 end

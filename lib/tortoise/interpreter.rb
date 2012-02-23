@@ -35,26 +35,11 @@ module Tortoise
       commands.each { |command| execute(command) }
     end
 
-    def to_ascii
-      oriented_canvas.inject('') do |ascii, column|
-        column.each do |pixel|
-          char = pixel ? 'X' : '.'
-          ascii += "#{char} "
-        end
-        ascii = ascii.strip + "\n"
+    # define presenter formats
+    %w(ascii html).each do |format|
+      define_method("to_#{format}") do
+        Tortoise::Presenter.new(self).send("to_#{format}")
       end
-    end
-
-    def to_html
-      <<-HTML
-        <!DOCTYPE html>
-        <html>
-        #{html_head}
-        <body>
-          #{html_canvas}
-        </body>
-        </html>
-      HTML
     end
 
     private
@@ -118,59 +103,6 @@ module Tortoise
       x = @size - 1 if x >= @size
       y = @size - 1 if y >= @size
       [x, y]
-    end
-
-    def oriented_canvas
-      oriented = new_canvas
-      @canvas.each_with_index do |column, i|
-        column.each_with_index do |pixel, j|
-          oriented[@size-1-j][i] = pixel
-        end
-      end
-      oriented
-    end
-
-    def html_head
-      pixel_size = 8
-      <<-HTML
-        <head>
-        <title>Tortoise</title>
-        <style type="text/css">
-          * { margin: 0; padding: 0; }
-
-          body { background: #555; }
-
-          #canvas {
-            overflow: hidden;
-            border: #{pixel_size}px solid #000;
-            width: #{@size * pixel_size}px;
-            margin: 50px auto 10px auto;
-          }
-
-          .column { float: left; }
-
-          .pixel {
-            width: #{pixel_size}px;
-            height: #{pixel_size}px;
-          }
-
-          .empty { background: #ddd; }
-
-          .filled { background: #111; }
-        </style>
-        </head>
-      HTML
-    end
-
-    def html_canvas
-      @canvas.inject("<div id='canvas'>") do |html, column|
-        html += "<div class='column'>"
-        column.reverse.each do |pixel|
-          pixel_class = pixel ? 'filled' : 'empty'
-          html += "<div class='pixel #{pixel_class}'></div>"
-        end
-        html += "</div>"
-      end + "</div>"
     end
   end
 end

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 $:.push File.expand_path("../../lib", __FILE__)
-require 'tortoise/interpreter'
+require 'tortoise'
 
 def print_usage
   puts "Usage: tortoise [OPTIONS] [FILE]\n\n"
