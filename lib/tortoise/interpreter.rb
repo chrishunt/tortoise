@@ -36,15 +36,13 @@ module Tortoise
     end
 
     def to_ascii
-      s = ''
-      oriented_canvas.each do |column|
+      oriented_canvas.inject('') do |ascii, column|
         column.each do |pixel|
           char = pixel ? 'X' : '.'
-          s += "#{char} "
+          ascii += "#{char} "
         end
-        s = s.strip + "\n"
+        ascii = ascii.strip + "\n"
       end
-      s
     end
 
     def to_html
@@ -165,16 +163,14 @@ module Tortoise
     end
 
     def html_canvas
-      html = "<div id='canvas'>"
-      @canvas.each do |column|
+      @canvas.inject("<div id='canvas'>") do |html, column|
         html += "<div class='column'>"
         column.reverse.each do |pixel|
           pixel_class = pixel ? 'filled' : 'empty'
           html += "<div class='pixel #{pixel_class}'></div>"
         end
         html += "</div>"
-      end
-      html += "</div>"
+      end + "</div>"
     end
   end
 end
