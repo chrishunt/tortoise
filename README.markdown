@@ -110,20 +110,28 @@ Command Line Usage
 Tortoise can be used on the command line to render logo command files. The
 output is rendered to standard out.
 
-    Usage: tortoise [FILE]
+    Usage: tortoise [OPTIONS] [FILE]
 
-For example, if you'd like to render `drawing.logo` to `drawing.txt`:
+    Options:
+      --ascii   Render ascii output (default)
+      --html    Render html output
+
+For example, if you'd like to render `drawing.logo` to `drawing.txt` as ascii:
 
     $ tortoise drawing.logo > drawing.txt
 
+Or as html:
+
+    $ tortoise --html drawing.logo > drawing.html
+
 Rendering The Canvas
 --------------------
-Tortoise can currently render its canvas to a string. Html export is planned
-soon (which will allow a very high resolution canvas). To get a string
-representation of the current canvas:
+Tortoise can currently render its canvas as ascii or as html.
 
     interpreter = Tortoise::Interpreter.new(5)
-    interpreter.to_s
+
+    interpreter.to_ascii  #=> return ascii
+    interpreter.to_html   #=> return html
 
 Supported Commands
 ------------------
