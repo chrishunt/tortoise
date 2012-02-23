@@ -80,8 +80,8 @@ describe Tortoise::Interpreter do
     end
   end
 
-  describe '#to_s' do
-    it 'renders canvas to string' do
+  describe '#to_ascii' do
+    it 'renders canvas to ascii' do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.draw <<-STEPS
         RT 90
@@ -94,7 +94,7 @@ describe Tortoise::Interpreter do
         FD 2
       STEPS
 
-      tortoise.to_s.should == "" +
+      tortoise.to_ascii.should == "" +
        ". . . . .\n" +
        ". . . . .\n" +
        ". . X X .\n" +

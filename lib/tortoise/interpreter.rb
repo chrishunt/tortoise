@@ -35,7 +35,7 @@ module Tortoise
       commands.each { |command| execute(command) }
     end
 
-    def to_s
+    def to_ascii
       s = ''
       oriented_canvas.each do |column|
         column.each do |pixel|

@@ -5,7 +5,7 @@ require 'tortoise/interpreter'
 def print_usage
   puts "Usage: tortoise [OPTIONS] [FILE]\n\n"
   puts "Options:"
-  puts "  --ascii   Render string output (default)"
+  puts "  --ascii   Render ascii output (default)"
   puts "  --html    Render html output"
   exit(1)
 end
@@ -29,7 +29,7 @@ output = ''
 
 case format
 when '--ascii'
-  output = interpreter.to_s
+  output = interpreter.to_ascii
 when '--html'
   output = interpreter.to_html
 else
