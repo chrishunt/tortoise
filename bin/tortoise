@@ -2,10 +2,38 @@
 $:.push File.expand_path("../../lib", __FILE__)
 require 'tortoise/interpreter'
 
-if ARGV.size < 1
-  puts "Usage: tortoise [FILE]"
-  raise Exception.new("Missing filename")
+def print_usage
+  puts "Usage: tortoise [OPTIONS] [FILE]\n\n"
+  puts "Options:"
+  puts "  --ascii   Render string output (default)"
+  puts "  --html    Render html output"
+  exit(1)
 end
 
-commands = File.new(ARGV.first).read
-puts Tortoise::Interpreter.new(commands).to_s
+format  = '--ascii'
+filname = nil
+
+case ARGV.size
+when 1
+  filename = ARGV.pop
+when 2
+  filename = ARGV.pop
+  format   = ARGV.pop
+else
+  print_usage
+end
+
+commands = File.new(filename).read
+interpreter = Tortoise::Interpreter.new(commands)
+output = ''
+
+case format
+when '--ascii'
+  output = interpreter.to_s
+when '--html'
+  output = interpreter.to_html
+else
+  print_usage
+end
+
+puts output

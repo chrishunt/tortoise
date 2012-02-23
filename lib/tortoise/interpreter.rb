@@ -47,6 +47,18 @@ module Tortoise
       s
     end
 
+    def to_html
+      <<-HTML
+        <!DOCTYPE html>
+        <html>
+        #{html_head}
+        <body>
+          #{html_canvas}
+        </body>
+        </html>
+      HTML
+    end
+
     private
 
     def new_canvas
@@ -118,6 +130,57 @@ module Tortoise
         end
       end
       oriented
+    end
+
+    def html_head
+      pixel_size = 1
+      <<-HTML
+        <head>
+        <title>Tortoise</title>
+        <style type="text/css">
+          * { margin: 0; padding: 0; }
+
+          body { background: #eee; }
+
+          #canvas {
+            overflow: hidden;
+            border: 1px solid #000;
+            width: #{@size * pixel_size}px;
+            margin: 50px auto 10px auto;
+          }
+
+          .column {
+            float: left;
+          }
+
+          .pixel {
+            width: #{pixel_size}px;
+            height: #{pixel_size}px;
+          }
+
+          .empty {
+            background: #ccc;
+          }
+
+          .filled {
+            background: #111;
+          }
+        </style>
+        </head>
+      HTML
+    end
+
+    def html_canvas
+      html = "<div id='canvas'>"
+      @canvas.each do |column|
+        html += "<div class='column'>"
+        column.reverse.each do |pixel|
+          pixel_class = pixel ? 'filled' : 'empty'
+          html += "<div class='pixel #{pixel_class}'></div>"
+        end
+        html += "</div>"
+      end
+      html += "</div>"
     end
   end
 end
