@@ -133,18 +133,18 @@ module Tortoise
     end
 
     def html_head
-      pixel_size = 1
+      pixel_size = 8
       <<-HTML
         <head>
         <title>Tortoise</title>
         <style type="text/css">
           * { margin: 0; padding: 0; }
 
-          body { background: #eee; }
+          body { background: #555; }
 
           #canvas {
             overflow: hidden;
-            border: 1px solid #000;
+            border: #{pixel_size}px solid #000;
             width: #{@size * pixel_size}px;
             margin: 50px auto 10px auto;
           }
@@ -159,7 +159,7 @@ module Tortoise
           }
 
           .empty {
-            background: #ccc;
+            background: #ddd;
           }
 
           .filled {
