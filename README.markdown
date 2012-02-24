@@ -59,18 +59,24 @@ any of the supported Logo commands.
     interpreter = Tortoise::Interpreter.new(canvas_size)
 
     # execute any supported commands
+    interpreter.pd
+    interpreter.setpos(1, 2)
     interpreter.rt(90)
     interpreter.fd(3)
     interpreter.lt(45)
     interpreter.bk(4)
+    interpreter.pu
 
 Tortoise also accepts commands as an input string:
 
     interpreter = Tortoise::Interpreter.new(11)
+    interpreter.draw "PD"
+    interpreter.draw "SETPOS 1 2"
     interpreter.draw "RT 90"
     interpreter.draw "FD 3"
     interpreter.draw "LT 45"
     interpreter.draw "BK 4"
+    interpreter.draw "PU"
 
 You can execute entire blocks of commands at once:
 
@@ -143,6 +149,9 @@ Supported Commands
 ------------------
 Tortoise only supports a small subset of all [Logo][logo] commands.
 
+- `PU`: Lift the pen from the canvas
+- `PD`: Place the pen onto the canvas
+- `SETPOS x y`: Move the tortoise to position `x, y`
 - `RT x`: Turn the tortoise `x` degrees to the right (increments of 45)
 - `LT x`: Turn the tortoise `x` degrees to the right (increments of 45)
 - `FD x`: Move the tortoise `x` steps forward
