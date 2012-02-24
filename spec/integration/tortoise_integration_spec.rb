@@ -7,12 +7,12 @@ describe Tortoise::Interpreter do
   end
 
   it 'produces the expected ascii output' do
-    ascii = File.new('./spec/data/simple_out.ascii').read
+    ascii = File.new('./spec/data/simple.ascii').read
     @interpreter.to_ascii.should == ascii
   end
 
   it 'produces the expected html output' do
-    html = File.new('./spec/data/simple_out.html').read
+    html = File.new('./spec/data/simple.html').read
     @interpreter.to_html.should == html
   end
 end
