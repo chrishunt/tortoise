@@ -12,11 +12,7 @@ module Tortoise
 
     def to_ascii
       oriented_canvas.inject('') do |ascii, column|
-        column.each do |pixel|
-          char = pixel ? 'X' : '.'
-          ascii += "#{char} "
-        end
-        ascii = ascii.strip + "\n"
+        ascii += column.map { |pixel| pixel ? 'X ' : '. ' }.join.strip + "\n"
       end
     end
 
@@ -93,12 +89,10 @@ module Tortoise
 
     def html_canvas
       @canvas.inject("<div id='canvas'>") do |html, column|
-        html += "<div class='column'>"
-        column.reverse.each do |pixel|
-          pixel_class = pixel ? 'filled' : 'empty'
-          html += "<div class='pixel #{pixel_class}'></div>"
-        end
-        html += "</div>"
+        html += "<div class='column'>" +
+          column.reverse.map do |pixel|
+            "<div class='pixel #{pixel ? 'filled' : 'empty'}'></div>"
+          end.join + "</div>"
       end + "</div>"
     end
   end
