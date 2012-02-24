@@ -1,4 +1,5 @@
 require 'tortoise/interpreter'
+require 'helpers/interpreter_helper'
 
 describe Tortoise::Interpreter do
   let(:tortoise) { Tortoise::Interpreter.new(11) }
@@ -21,11 +22,7 @@ describe Tortoise::Interpreter do
   end
 
   it 'starts with a single marked pixel on the canvas' do
-    count = 0
-    tortoise.canvas.each do |column|
-      column.each { |pixel| count += 1 if pixel }
-    end
-    count.should == 1
+    filled_pixels(tortoise.canvas).should == 1
   end
 
   it 'defaults tortoise position to the center of the canvas' do
@@ -74,6 +71,44 @@ describe Tortoise::Interpreter do
         [true , false, true , false, false],
         [true , true , true , false, false],
         [true , false, false, false, false]]
+    end
+  end
+
+  describe '#setpos' do
+    it 'moves the tortoise to the specified position' do
+      tortoise.setpos(2, 4)
+      tortoise.position.should == [2, 4]
+    end
+
+    it 'does not draw to canvas while moving' do
+      filled_pixels(tortoise.canvas).should == 1
+      tortoise.setpos(2, 4)
+      filled_pixels(tortoise.canvas).should == 1
+    end
+
+    it 'does not set a position outside the canvas' do
+      tortoise.setpos(100, 100)
+      tortoise.position.should == [10, 10]
+    end
+  end
+
+  describe '#pu' do
+    it 'lifts the pen from the canvas' do
+      filled_pixels(tortoise.canvas).should == 1
+      tortoise.pd
+      tortoise.pu
+      tortoise.fd(2)
+      filled_pixels(tortoise.canvas).should == 1
+    end
+  end
+
+  describe '#pd' do
+    it 'places the pen onto the canvas' do
+      filled_pixels(tortoise.canvas).should == 1
+      tortoise.pu
+      tortoise.pd
+      tortoise.fd(2)
+      filled_pixels(tortoise.canvas).should == 3
     end
   end
 

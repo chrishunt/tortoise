@@ -8,10 +8,23 @@ module Tortoise
       @size = lines.shift.to_i
       @canvas = new_canvas
       @direction = 0
+      @pen_down = true
       center = (@size - @size/2) - 1
 
       update_position(center, center)
       draw(lines)
+    end
+
+    def setpos(x, y)
+      @position = place_in_canvas_bounds(x, y)
+    end
+
+    def pu
+      @pen_down = false
+    end
+
+    def pd
+      @pen_down = true
     end
 
     def rt(degrees)
@@ -93,7 +106,7 @@ module Tortoise
 
     def update_canvas
       x, y = @position
-      @canvas[x][y] = true
+      @canvas[x][y] = true if @pen_down
     end
 
     def place_in_canvas_bounds(x, y)
