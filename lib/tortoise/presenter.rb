@@ -1,3 +1,5 @@
+require 'chunky_png'
+
 module Tortoise
   class Presenter
     attr_reader :canvas
@@ -28,6 +30,20 @@ module Tortoise
         </body>
         </html>
       HTML
+    end
+
+    def to_png
+      white = ChunkyPNG::Color('white')
+      black = ChunkyPNG::Color('black')
+      png   = ChunkyPNG::Image.new(@canvas.size, @canvas.size)
+
+      @canvas.each_with_index do |column, x|
+        column.reverse.each_with_index do |pixel, y|
+          png[x, y] = pixel ? black : white
+        end
+      end
+
+      png.to_blob
     end
 
     private

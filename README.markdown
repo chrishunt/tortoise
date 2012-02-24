@@ -115,6 +115,7 @@ output is rendered to standard out.
     Options:
       --ascii   Render ascii output (default)
       --html    Render html output
+      --png     Render png output
 
 For example, if you'd like to render `drawing.logo` to `drawing.txt` as ascii:
 
@@ -124,6 +125,10 @@ Or as html:
 
     $ tortoise --html drawing.logo > drawing.html
 
+Or as png:
+
+    $ tortoise --png drawing.logo > drawing.png
+
 Rendering The Canvas
 --------------------
 Tortoise can currently render its canvas as ascii or as html.
@@ -132,6 +137,7 @@ Tortoise can currently render its canvas as ascii or as html.
 
     interpreter.to_ascii  #=> return ascii
     interpreter.to_html   #=> return html
+    interpreter.to_png    #=> return a png blob
 
 Supported Commands
 ------------------

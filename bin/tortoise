@@ -7,6 +7,7 @@ def print_usage
   puts "Options:"
   puts "  --ascii   Render ascii output (default)"
   puts "  --html    Render html output"
+  puts "  --png     Render png output"
   exit(1)
 end
 
@@ -32,6 +33,8 @@ when '--ascii'
   output = interpreter.to_ascii
 when '--html'
   output = interpreter.to_html
+when '--png'
+  output = interpreter.to_png
 else
   print_usage
 end

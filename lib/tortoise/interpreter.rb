@@ -35,8 +35,7 @@ module Tortoise
       commands.each { |command| execute(command) }
     end
 
-    # define presenter formats
-    %w(ascii html).each do |format|
+    %w(ascii html png).each do |format|
       define_method("to_#{format}") do
         Tortoise::Presenter.new(self).send("to_#{format}")
       end

@@ -439,24 +439,15 @@ describe Tortoise::Interpreter do
     end
   end
 
-  describe 'canvas rendering' do
-    before do
-      @presenter = stub('presenter')
-      Tortoise::Presenter.stub(:new => @presenter)
-      @interpreter = Tortoise::Interpreter.new(5)
-    end
-
-    describe '#to_ascii' do
+  %w(ascii html png).each do |format|
+    describe "#to_#{format}" do
       it 'delegates rendering to presenter' do
-        @presenter.should_receive(:to_ascii)
-        @interpreter.to_ascii
-      end
-    end
+        presenter = stub('presenter')
+        Tortoise::Presenter.stub(:new => presenter)
+        interpreter = Tortoise::Interpreter.new(5)
 
-    describe '#to_html' do
-      it 'delegates rendering to presenter' do
-        @presenter.should_receive(:to_html)
-        @interpreter.to_html
+        presenter.should_receive("to_#{format}")
+        interpreter.send("to_#{format}")
       end
     end
   end
