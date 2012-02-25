@@ -76,15 +76,17 @@ module Tortoise
     end
 
     def execute(command)
-      words = command.split(' ')
-      if words.size == 1 || words.size == 2
-        method = words[0].downcase
-        param  = words[1] ? words[1].to_i : false
-        param ? self.send(method, param) : self.send(method)
-      else
-        count = words[1].to_i
-        commands = words[3..words.size-2]
+      commands = command.split(' ')
+      return if commands.empty?
+
+      command = commands.shift.downcase
+      if command == 'repeat'
+        count = commands.shift.to_i
+        commands = commands[1..commands.size-2]
         repeat(commands, count)
+      else
+        params = commands.map(&:to_i)
+        self.send(command, *params)
       end
     end
 
@@ -92,8 +94,10 @@ module Tortoise
       count.times do
         c = commands.dup
         while c.size > 0
-          has_numeric_param = c[1] == "0" || c[1].to_i != 0
-          has_numeric_param ? execute(c.shift(2).join(' ')) : execute(c.shift)
+          command = c.shift
+          params = []
+          params << c.shift while c[0].to_s.match(/[0-9]/)
+          execute("#{command} #{params.join(' ')}")
         end
       end
     end

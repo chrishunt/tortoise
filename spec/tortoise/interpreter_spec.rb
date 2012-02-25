@@ -466,6 +466,12 @@ describe Tortoise::Interpreter do
       tortoise.pen_down?.should == false
     end
 
+    it 'can execute setpos commands' do
+      tortoise.position.should == [5, 5]
+      tortoise.send(:execute, 'SETPOS 2 4')
+      tortoise.position.should == [2, 4]
+    end
+
     it 'can execute right turns' do
       tortoise.send(:execute, 'RT 90')
       tortoise.direction.should == 90
@@ -494,8 +500,9 @@ describe Tortoise::Interpreter do
     end
 
     it 'can execute multi-item repeat blocks' do
-      tortoise.send(:execute, 'REPEAT 2 [ PD RT 45 LT 90 ]')
+      tortoise.send(:execute, 'REPEAT 2 [ PD RT 45 SETPOS 0 0 LT 90 ]')
       tortoise.direction.should == 270
+      tortoise.position.should == [0, 0]
     end
 
     it 'can execute commands with extra whitespace' do
