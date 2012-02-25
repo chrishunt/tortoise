@@ -151,9 +151,9 @@ Tortoise only supports a small subset of all [Logo][logo] commands.
 
 - `PU`: Lift the pen from the canvas
 - `PD`: Place the pen onto the canvas
-- `SETPOS x y`: Move the tortoise to position `x, y`
 - `RT x`: Turn the tortoise `x` degrees to the right (increments of 45)
 - `LT x`: Turn the tortoise `x` degrees to the right (increments of 45)
 - `FD x`: Move the tortoise `x` steps forward
 - `BK x`: Move the tortoise `x` steps backward
+- `SETPOS x y`: Move the tortoise to position `x, y` (with pen up)
 - `REPEAT n [ x ]`: Repeat commands `x` a total of `n` times
