@@ -27,6 +27,10 @@ module Tortoise
       @pen_down = true
     end
 
+    def pen_down?
+      @pen_down
+    end
+
     def rt(degrees)
       rotate(degrees)
     end
@@ -73,13 +77,23 @@ module Tortoise
 
     def execute(command)
       words = command.split(' ')
-      if words.size == 2
-        method, param = words
-        self.send(method.downcase, param.to_i)
+      if words.size == 1 || words.size == 2
+        method = words[0].downcase
+        param  = words[1] ? words[1].to_i : false
+        param ? self.send(method, param) : self.send(method)
       else
-        1.upto(words[1].to_i) do
-          commands = words[3..words.size-2]
-          execute(commands.shift(2).join(' ')) while commands.size > 0
+        count = words[1].to_i
+        commands = words[3..words.size-2]
+        repeat(commands, count)
+      end
+    end
+
+    def repeat(commands, count)
+      count.times do
+        c = commands.dup
+        while c.size > 0
+          has_numeric_param = c[1] == "0" || c[1].to_i != 0
+          has_numeric_param ? execute(c.shift(2).join(' ')) : execute(c.shift)
         end
       end
     end
@@ -105,8 +119,9 @@ module Tortoise
     end
 
     def update_canvas
+      return unless pen_down?
       x, y = @position
-      @canvas[x][y] = true if @pen_down
+      @canvas[x][y] = true
     end
 
     def place_in_canvas_bounds(x, y)

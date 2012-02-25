@@ -33,6 +33,10 @@ describe Tortoise::Interpreter do
     tortoise.direction.should == 0
   end
 
+  it 'defaults with the tortoise pen down' do
+    tortoise.pen_down?.should == true
+  end
+
   describe '#draw' do
     it 'draws the image on the canvas when given a string' do
       tortoise = Tortoise::Interpreter.new(5)
@@ -76,6 +80,7 @@ describe Tortoise::Interpreter do
 
   describe '#setpos' do
     it 'moves the tortoise to the specified position' do
+      tortoise.position.should == [5, 5]
       tortoise.setpos(2, 4)
       tortoise.position.should == [2, 4]
     end
@@ -94,21 +99,18 @@ describe Tortoise::Interpreter do
 
   describe '#pu' do
     it 'lifts the pen from the canvas' do
-      filled_pixels(tortoise.canvas).should == 1
-      tortoise.pd
+      tortoise.pen_down?.should == true
       tortoise.pu
-      tortoise.fd(2)
-      filled_pixels(tortoise.canvas).should == 1
+      tortoise.pen_down?.should == false
     end
   end
 
   describe '#pd' do
     it 'places the pen onto the canvas' do
-      filled_pixels(tortoise.canvas).should == 1
       tortoise.pu
+      tortoise.pen_down?.should == false
       tortoise.pd
-      tortoise.fd(2)
-      filled_pixels(tortoise.canvas).should == 3
+      tortoise.pen_down?.should == true
     end
   end
 
@@ -309,7 +311,7 @@ describe Tortoise::Interpreter do
       x.should >= 0
     end
 
-    it 'draws on traveled areas of the canvas' do
+    it 'draws on traveled areas of the canvas when pen is down' do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.rt(90)
       tortoise.fd(1)
@@ -325,6 +327,13 @@ describe Tortoise::Interpreter do
         [true , false, true , false, false],
         [true , true , true , false, false],
         [true , false, false, false, false]]
+    end
+
+    it 'does not draw on traveled areas of the canvas when pen is up' do
+      tortoise = Tortoise::Interpreter.new(5)
+      tortoise.stub(:pen_down? => false)
+      tortoise.fd(2)
+      filled_pixels(tortoise.canvas).should == 1
     end
   end
 
@@ -411,7 +420,7 @@ describe Tortoise::Interpreter do
       x.should < tortoise.size
     end
 
-    it 'draws on traveled areas of the canvas' do
+    it 'draws on traveled areas of the canvas when pen is down' do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.lt(90)
       tortoise.bk(1)
@@ -428,12 +437,33 @@ describe Tortoise::Interpreter do
         [true , true , true , false, false],
         [true , false, false, false, false]]
     end
+
+    it 'does not draw on traveled areas of the canvas when pen is up' do
+      tortoise = Tortoise::Interpreter.new(5)
+      tortoise.stub(:pen_down? => false)
+      tortoise.bk(2)
+      filled_pixels(tortoise.canvas).should == 1
+    end
   end
 
   describe '#execute' do
     it 'can execute lowercase commands' do
       tortoise.send(:execute, 'rt 90')
       tortoise.direction.should == 90
+    end
+
+    it 'can execute putting the pen down' do
+      tortoise.pu
+      tortoise.pen_down?.should == false
+      tortoise.send(:execute, 'PD')
+      tortoise.pen_down?.should == true
+    end
+
+    it 'can execute lifting the pen up' do
+      tortoise.pd
+      tortoise.pen_down?.should == true
+      tortoise.send(:execute, 'PU')
+      tortoise.pen_down?.should == false
     end
 
     it 'can execute right turns' do
@@ -464,13 +494,28 @@ describe Tortoise::Interpreter do
     end
 
     it 'can execute multi-item repeat blocks' do
-      tortoise.send(:execute, 'REPEAT 2 [ RT 45 LT 90 ]')
+      tortoise.send(:execute, 'REPEAT 2 [ PD RT 45 LT 90 ]')
       tortoise.direction.should == 270
     end
 
     it 'can execute commands with extra whitespace' do
       tortoise.send(:execute, ' RT 90 ')
       tortoise.direction.should == 90
+    end
+
+    it 'does not raise error with blank lines' do
+      command = lambda { tortoise.send(:execute, '  ') }
+      command.should_not raise_error
+    end
+
+    it 'does not raise error with zero params in repeat command' do
+      command = lambda { tortoise.send(:execute, 'REPEAT 2 [ RT 0 PD ]') }
+      command.should_not raise_error
+    end
+
+    it 'raises error with unknown commands' do
+      command = lambda { tortoise.send(:execute, 'UNKNOWN') }
+      command.should raise_error
     end
   end
 
