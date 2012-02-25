@@ -21,8 +21,8 @@ describe Tortoise::Interpreter do
     tortoise.position.should == [3, 2]
   end
 
-  it 'starts with a single marked pixel on the canvas' do
-    filled_pixels(tortoise.canvas).should == 1
+  it 'starts with no marked pixels on the canvas' do
+    filled_pixels(tortoise.canvas).should == 0
   end
 
   it 'defaults tortoise position to the center of the canvas' do
@@ -33,14 +33,15 @@ describe Tortoise::Interpreter do
     tortoise.direction.should == 0
   end
 
-  it 'defaults with the tortoise pen down' do
-    tortoise.pen_down?.should == true
+  it 'defaults with the tortoise pen up' do
+    tortoise.pen_down?.should == false
   end
 
   describe '#draw' do
     it 'draws the image on the canvas when given a string' do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.draw <<-STEPS
+        PD
         RT 90
         FD 1
         REPEAT 2 [ RT 45 ]
@@ -61,6 +62,7 @@ describe Tortoise::Interpreter do
     it 'draws the image on the canvas when given an array' do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.draw([
+        'PD',
         'RT 90',
         'FD 1',
         'REPEAT 2 [ RT 45 ]',
@@ -85,10 +87,18 @@ describe Tortoise::Interpreter do
       tortoise.position.should == [2, 4]
     end
 
-    it 'does not draw to canvas while moving' do
-      filled_pixels(tortoise.canvas).should == 1
-      tortoise.setpos(2, 4)
-      filled_pixels(tortoise.canvas).should == 1
+    it 'fills in landing spot when pen is down' do
+      filled_pixels(tortoise.canvas).should == 0
+      tortoise.pd
+      tortoise.setpos(0, 0)
+      filled_pixels(tortoise.canvas).should == 2
+    end
+
+    it 'does not fill in landing spot when pen is up' do
+      filled_pixels(tortoise.canvas).should == 0
+      tortoise.pu
+      tortoise.setpos(0, 0)
+      filled_pixels(tortoise.canvas).should == 0
     end
 
     it 'does not set a position outside the canvas' do
@@ -99,6 +109,7 @@ describe Tortoise::Interpreter do
 
   describe '#pu' do
     it 'lifts the pen from the canvas' do
+      tortoise.pd
       tortoise.pen_down?.should == true
       tortoise.pu
       tortoise.pen_down?.should == false
@@ -111,6 +122,14 @@ describe Tortoise::Interpreter do
       tortoise.pen_down?.should == false
       tortoise.pd
       tortoise.pen_down?.should == true
+    end
+
+    it 'fills in a pixel when the pen hits the canvas' do
+      filled_pixels(tortoise.canvas).should == 0
+      tortoise.pu
+      tortoise.fd(2)
+      tortoise.pd
+      filled_pixels(tortoise.canvas).should == 1
     end
   end
 
@@ -313,6 +332,7 @@ describe Tortoise::Interpreter do
 
     it 'draws on traveled areas of the canvas when pen is down' do
       tortoise = Tortoise::Interpreter.new(5)
+      tortoise.pd
       tortoise.rt(90)
       tortoise.fd(1)
       tortoise.rt(90)
@@ -333,7 +353,7 @@ describe Tortoise::Interpreter do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.stub(:pen_down? => false)
       tortoise.fd(2)
-      filled_pixels(tortoise.canvas).should == 1
+      filled_pixels(tortoise.canvas).should == 0
     end
   end
 
@@ -422,6 +442,7 @@ describe Tortoise::Interpreter do
 
     it 'draws on traveled areas of the canvas when pen is down' do
       tortoise = Tortoise::Interpreter.new(5)
+      tortoise.pd
       tortoise.lt(90)
       tortoise.bk(1)
       tortoise.rt(90)
@@ -442,7 +463,7 @@ describe Tortoise::Interpreter do
       tortoise = Tortoise::Interpreter.new(5)
       tortoise.stub(:pen_down? => false)
       tortoise.bk(2)
-      filled_pixels(tortoise.canvas).should == 1
+      filled_pixels(tortoise.canvas).should == 0
     end
   end
 

@@ -11,6 +11,7 @@ describe Tortoise::Presenter do
     before do
       interpreter = Tortoise::Interpreter.new <<-STEPS
         5
+        PD
         RT 90
         FD 1
         REPEAT 2 [ RT 45 ]

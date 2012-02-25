@@ -5,10 +5,11 @@ Tortoise [![Build Status](https://secure.travis-ci.org/huntca/tortoise.png)](htt
 
 Tortoise is a [Logo][logo] interpreter for Ruby. To demonstrate the
 awesomeness of Logo, we'll draw a ruby! This example can be found in the
-repository at `spec/data/simple.logo`.
+repository at `spec/data/ruby.logo`.
 
     > Tortoise::Interpreter.new <<-LOGO
         61
+        PD
         RT 135
         FD 5
         REPEAT 2 [ RT 90 FD 15 ]
