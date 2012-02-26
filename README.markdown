@@ -7,7 +7,7 @@ Tortoise is a [Logo][logo] interpreter for Ruby.
 
     $ tortoise --png spec/data/complex.logo
 
-[Complex PNG](https://raw.github.com/huntca/tortoise/master/spec/data/complex.png)
+[![Complex PNG](https://raw.github.com/huntca/tortoise/master/spec/data/complex.png)](https://github.com/huntca/tortoise/blob/master/spec/data/complex.logo)
 
 Installation
 ------------
