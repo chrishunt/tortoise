@@ -3,45 +3,33 @@ Tortoise [![Build Status](https://secure.travis-ci.org/huntca/tortoise.png)](htt
 [logo]: http://en.wikipedia.org/wiki/Logo_(programming_language) "Logo Programming Language"
 [rubygems]: https://rubygems.org/ "Rubygems"
 
-Tortoise is a [Logo][logo] interpreter for Ruby. To demonstrate the
-awesomeness of Logo, we'll draw a ruby! This example can be found in the
-repository at `spec/data/ruby.logo`.
+Tortoise is a [Logo][logo] interpreter for Ruby.
 
-    > Tortoise::Interpreter.new <<-LOGO
-        61
-        PD
-        RT 135
-        FD 5
-        REPEAT 2 [ RT 90 FD 15 ]
-        RT 90
-        FD 5
-        RT 45
-        FD 20
-      LOGO
+    $ tortoise --ascii spec/data/ruby.logo
 
-      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-      . . . . . . X X X X X X X X X X X X X X X X X X X X X . . . . . .
-      . . . . . X . . . . . . . . . . . . . . . . . . . . . X . . . . .
-      . . . . X . . . . . . . . . . . . . . . . . . . . . . . X . . . .
-      . . . X . . . . . . . . . . . . . . . . . . . . . . . . . X . . .
-      . . X . . . . . . . . . . . . . . . . . . . . . . . . . . . X . .
-      . X . . . . . . . . . . . . . . . . . . . . . . . . . . . . . X .
-      . . X . . . . . . . . . . . . . . . . . . . . . . . . . . . X . .
-      . . . X . . . . . . . . . . . . . . . . . . . . . . . . . X . . .
-      . . . . X . . . . . . . . . . . . . . . . . . . . . . . X . . . .
-      . . . . . X . . . . . . . . . . . . . . . . . . . . . X . . . . .
-      . . . . . . X . . . . . . . . . . . . . . . . . . . X . . . . . .
-      . . . . . . . X . . . . . . . . . . . . . . . . . X . . . . . . .
-      . . . . . . . . X . . . . . . . . . . . . . . . X . . . . . . . .
-      . . . . . . . . . X . . . . . . . . . . . . . X . . . . . . . . .
-      . . . . . . . . . . X . . . . . . . . . . . X . . . . . . . . . .
-      . . . . . . . . . . . X . . . . . . . . . X . . . . . . . . . . .
-      . . . . . . . . . . . . X . . . . . . . X . . . . . . . . . . . .
-      . . . . . . . . . . . . . X . . . . . X . . . . . . . . . . . . .
-      . . . . . . . . . . . . . . X . . . X . . . . . . . . . . . . . .
-      . . . . . . . . . . . . . . . X . X . . . . . . . . . . . . . . .
-      . . . . . . . . . . . . . . . . X . . . . . . . . . . . . . . . .
-      . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . X X X X X X X X X X X X X X X X X X X X X . . . . . .
+    . . . . . X . . . . . . . . . . . . . . . . . . . . . X . . . . .
+    . . . . X . . . . . . . . . . . . . . . . . . . . . . . X . . . .
+    . . . X . . . . X X X . . . . . . . . . . . X X X . . . . X . . .
+    . . X . . . . . X X X . . . . . . . . . . . X X X . . . . . X . .
+    . X . . . . . . . . . . . . . . . . . . . . . . . . . . . . . X .
+    . . X . . . . . . . . . . . . X X X . . . . . . . . . . . . X . .
+    . . . X . . . . . . X . . . . X X X . . . . X . . . . . . X . . .
+    . . . . X . . . . . . X . . . . . . . . . X . . . . . . X . . . .
+    . . . . . X . . . . . . X . . . . . . . X . . . . . . X . . . . .
+    . . . . . . X . . . . . . X X X X X X X . . . . . . X . . . . . .
+    . . . . . . . X . . . . . . . . . . . . . . . . . X . . . . . . .
+    . . . . . . . . X . . . . . . . . . . . . . . . X . . . . . . . .
+    . . . . . . . . . X . . . . . . . . . . . . . X . . . . . . . . .
+    . . . . . . . . . . X . . . . . . . . . . . X . . . . . . . . . .
+    . . . . . . . . . . . X . . . . . . . . . X . . . . . . . . . . .
+    . . . . . . . . . . . . X . . . . . . . X . . . . . . . . . . . .
+    . . . . . . . . . . . . . X . . . . . X . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . X . . . X . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . X . X . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . X . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 Installation
 ------------
@@ -138,7 +126,7 @@ Or as png:
 
 Rendering The Canvas
 --------------------
-Tortoise can currently render its canvas as ascii or as html.
+Tortoise can currently render its canvas as ascii, html, or png.
 
     interpreter = Tortoise::Interpreter.new(5)
 
