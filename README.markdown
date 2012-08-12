@@ -1,4 +1,4 @@
-Tortoise [![Build Status](https://secure.travis-ci.org/huntca/tortoise.png)](http://travis-ci.org/huntca/tortoise)
+Tortoise [![Build Status](https://secure.travis-ci.org/chrishunt/tortoise.png)](http://travis-ci.org/chrishunt/tortoise)
 ========
 [logo]: http://en.wikipedia.org/wiki/Logo_(programming_language) "Logo Programming Language"
 [rubygems]: https://rubygems.org/ "Rubygems"
@@ -7,7 +7,7 @@ Tortoise is a [Logo][logo] interpreter for Ruby.
 
     $ tortoise --png spec/data/complex.logo
 
-[![Complex PNG](https://raw.github.com/huntca/tortoise/master/spec/data/complex.png)](https://github.com/huntca/tortoise/blob/master/spec/data/complex.logo)
+[![Complex PNG](https://raw.github.com/chrishunt/tortoise/master/spec/data/complex.png)](https://github.com/chrishunt/tortoise/blob/master/spec/data/complex.logo)
 
 Installation
 ------------

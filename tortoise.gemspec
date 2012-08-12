@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Tortoise::VERSION
   s.authors     = ["Chris Hunt"]
   s.email       = ["huntca@gmail.com"]
-  s.homepage    = "https://github.com/huntca/tortoise"
+  s.homepage    = "https://github.com/chrishunt/tortoise"
   s.summary     = %q{Tortoise is a Logo interpreter for ruby.}
   s.description = %q{Tortoise is a Logo interpreter for ruby.}
 
